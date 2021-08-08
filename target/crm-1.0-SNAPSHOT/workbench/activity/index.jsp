@@ -41,8 +41,62 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 
 			 */
 
-			alert(123);
-			$("#createActivityModal").modal("show");
+			// alert(123);
+			// $("#createActivityModal").modal("show");
+
+			//走后台，目的是为了取得用户信息列表，为所有者下拉框铺值
+			$.ajax({
+
+				url : "workbench/activity/getUserList.do",
+				type : "get",
+				dataType : "json",
+				success : function (data) {
+
+					/*
+
+						data
+							[{"id":?,"name":?,"loginAct":?.......},{2},{3}...]
+
+					 */
+
+					var html = "<option></option>";
+
+					//遍历出来的每一个n，就是每一个user对象
+					$.each(data,function (i,n) {
+
+						html += "<option value='"+n.id+"'>"+n.name+"</option>";
+
+					})
+
+					$("#create-owner").html(html);
+
+
+					//将当前登录的用户，设置为下拉框默认的选项
+					/*
+
+						<select id="create-owner">
+							<option value="40f6cdea0bd34aceb77492a1656d9fb3">张三</option>
+							<option value="06f5fc056eac41558a964f96daa7f27c">李四</option>
+						</select>
+
+						$("#create-owner").val("40f6cdea0bd34aceb77492a1656d9fb3");
+
+
+					 */
+
+					//取得当前登录用户的id
+					//在js中使用el表达式，el表达式一定要套用在字符串中
+					var id = "${user.id}";
+
+					$("#create-owner").val(id);
+					//所有者下拉框处理完毕后，展现模态窗口
+					$("#createActivityModal").modal("show");
+
+				}
+
+			})
+
+
 
 
 		});
@@ -69,10 +123,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						<div class="form-group">
 							<label for="create-marketActivityOwner" class="col-sm-2 control-label">所有者<span style="font-size: 15px; color: red;">*</span></label>
 							<div class="col-sm-10" style="width: 300px;">
-								<select class="form-control" id="create-marketActivityOwner">
-								  <option>zhangsan</option>
-								  <option>lisi</option>
-								  <option>wangwu</option>
+								<select class="form-control" id="create-owner">
+
 								</select>
 							</div>
                             <label for="create-marketActivityName" class="col-sm-2 control-label">名称<span style="font-size: 15px; color: red;">*</span></label>
