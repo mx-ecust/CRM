@@ -9,6 +9,7 @@
   <typeAliases>
   
   	<package name="com.mx.crm.settings.domain"/>
+    <package name="com.mx.crm.workbench.domain"/>
   	
   
   </typeAliases>
@@ -29,6 +30,7 @@
   <mappers>
    
       <package name="com.mx.crm.settings.dao"/>
+    <package name="com.mx.crm.workbench.dao"/>
     
   </mappers>
 </configuration>
