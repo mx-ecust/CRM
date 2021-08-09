@@ -118,6 +118,45 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		
 	}
 	
+	
+	function deleteRemark(id) {
+        //alert(id);
+
+        $.ajax({
+            url : "workbench/activity/deleteRemark.do",
+            data : {
+                "id" : id
+            },
+            type : "post",
+            dataType : "json",
+            success : function (data) {
+                /*
+                    data:
+                    {success:true/false}
+                 */
+
+                if (data.success){
+
+                    //删除备注成功
+                    //这种做法不行，记录使用的是before方法，每一次删除之后，页面上都会保留原有的数据
+                    //showRemarkList();
+
+                    //找到需要删除记录的div，将div移除掉
+                    $("#"+id).remove();
+
+
+                }else{
+                    alert("删除备注失败")
+                }
+
+
+            }
+        });
+
+    }
+	
+	
+	
 </script>
 
 </head>
