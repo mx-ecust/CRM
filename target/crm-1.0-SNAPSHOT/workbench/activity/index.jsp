@@ -182,6 +182,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 							//关闭添加操作的模态窗口
 							$("#createActivityModal").modal("hide");
 
+							pageList(1,2);
 
 
 						}else{
@@ -199,27 +200,115 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 
 			})
 
+		});
 
 
+		//为查询按钮绑定事件，触发pageList方法
+		$("#searchBtn").click(function () {
+			console.log("点击查询按钮");
+			/*
+
+            点击查询按钮的时候，我们应该将搜索框中的信息保存起来,保存到隐藏域中
 
 
-			//为查询按钮绑定事件，触发pageList方法
-			$("#searchBtn").click(function () {
-				/*
+         */
 
-				点击查询按钮的时候，我们应该将搜索框中的信息保存起来,保存到隐藏域中
+			$("#hidden-name").val($.trim($("#search-name").val()));
+			$("#hidden-owner").val($.trim($("#search-owner").val()));
+			$("#hidden-startDate").val($.trim($("#search-startDate").val()));
+			$("#hidden-endDate").val($.trim($("#search-endDate").val()));
 
-
-			 */
-
-				pageList(1,2);
-
-
-			});
-
+			pageList(1,2);
 
 
 		});
+		
+		//为全选的复选框绑定事件，触发全选操作
+		$("#qx").click(function () {
+			$("input[name=xz]").prop("checked",this.checked);
+		});
+
+		//以下这种做法是不行的
+		/*$("input[name=xz]").click(function () {
+
+			alert(123);
+
+		})*/
+
+		//因为动态生成的元素，是不能够以普通绑定事件的形式来进行操作的
+		/*
+
+			动态生成的元素，我们要以on方法的形式来触发事件
+
+			语法：
+				$(需要绑定元素的有效的外层元素).on(绑定事件的方式,需要绑定的元素的jquery对象,回调函数)
+
+		 */
+		$("#activityBody").on("click",$("input[name=xz]"),function () {
+
+			$("#qx").prop("checked",$("input[name=xz]").length==$("input[name=xz]:checked").length);
+
+		})
+
+		//console.log("为删除按钮绑定事件");
+		//为删除按钮绑定事件，执行市场活动删除操作
+		$("#deleteBtn").click(function () {
+			//找到复选框中所有挑√的复选框的jquery对象
+			var $xz = $("input[name=xz]:checked");
+
+			if ($xz.length == 0){
+				alert("请选择需要删除的记录");
+				//肯定选了，而且有可能是1条，有可能是多条
+			}else{
+				//alert("123");
+
+				//拼接参数
+				var param = "";
+				//将$xz中的每一个dom对象遍历出来，取其value值，就相当于取得了需要删除的记录的id
+				for(var i=0;i<$xz.length;i++){
+
+					param += "id="+$($xz[i]).val();
+
+					//如果不是最后一个元素，需要在后面追加一个&符
+					if(i<$xz.length-1){
+
+						param += "&";
+
+					}
+				}
+
+				// alert(param);
+
+				$.ajax({
+					url : "workbench/activity/delete.do",
+					data : param,
+					type : "post",
+					dataType : "json",
+					success : function (data) {
+						/*
+
+                                data
+                                    {"success":true/false}
+
+                          */
+
+						if (data.success){
+							//删除成功后
+							//回到第一页，维持每页展现的记录数
+							pageList(1,$("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
+						}else{
+							alert("删除市场活动失败");
+						}
+
+					}
+				});
+
+
+			}
+
+
+		});
+		
 
 		//页面加载完毕后触发一个方法
 		//默认展开列表的第一页，每页展现两条记录
@@ -252,6 +341,14 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	function pageList(pageNo,pageSize) {
 		//alert("展现市场活动列表");
 
+		//将全选的复选框干掉
+		$("#qx").prop("checked",false);
+
+		//查询前，将隐藏域中保存的信息取出来，重新赋予到搜索框中
+		$("#search-name").val($.trim($("#hidden-name").val()));
+		$("#search-owner").val($.trim($("#hidden-owner").val()));
+		$("#search-startDate").val($.trim($("#hidden-startDate").val()));
+		$("#search-endDate").val($.trim($("#hidden-endDate").val()));
 
 		$.ajax({
 			url : "workbench/activity/pageList.do",
@@ -330,6 +427,11 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 </script>
 </head>
 <body>
+
+	<input type="hidden" id="hidden-name" />
+	<input type="hidden" id="hidden-owner" />
+	<input type="hidden" id="hidden-startDate" />
+	<input type="hidden" id="hidden-endDate" />
 
 	<!-- 创建市场活动的模态窗口 -->
 	<div class="modal fade" id="createActivityModal" role="dialog">
@@ -507,9 +609,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					  <input class="form-control" type="text" id="search-endDate">
 				    </div>
 				  </div>
-				  
 				  <button type="button" id="searchBtn" class="btn btn-default">查询</button>
-				  
 				</form>
 			</div>
 			<div class="btn-toolbar" role="toolbar" style="background-color: #F7F7F7; height: 50px; position: relative;top: 5px;">
@@ -545,7 +645,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				<table class="table table-hover">
 					<thead>
 						<tr style="color: #B3B3B3;">
-							<td><input type="checkbox" /></td>
+							<td><input type="checkbox" id="qx" /></td>
 							<td>名称</td>
                             <td>所有者</td>
 							<td>开始日期</td>

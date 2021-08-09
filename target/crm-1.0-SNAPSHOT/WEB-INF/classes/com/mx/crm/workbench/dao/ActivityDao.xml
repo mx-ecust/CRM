@@ -6,6 +6,16 @@
 <mapper namespace="com.mx.crm.workbench.dao.ActivityDao">
 
 
+    <delete id="delete">
+        delete from tbl_activity where id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+
+            #{id}
+
+        </foreach>
+    </delete>
+
+
     <select id="getTotalByCondition" resultType="int">
 
         select count(*)
