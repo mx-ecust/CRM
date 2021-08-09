@@ -35,10 +35,84 @@ public class ActivityController extends HttpServlet {
             save(req,resp);
 
         } else if ("/workbench/activity/pageList.do".equals(path)){
+
             pageList(req,resp);
+
         } else if ("/workbench/activity/delete.do".equals(path)){
+
             delete(req,resp);
+
+        } else if("/workbench/activity/getUserListAndActivity.do".equals(path)){
+
+            getUserListAndActivity(req,resp);
+
+        }else if("/workbench/activity/update.do".equals(path)){
+
+            update(req,resp);
+
         }
+
+    }
+
+    private void update(HttpServletRequest req, HttpServletResponse resp) {
+
+        System.out.println("执行市场活动修改操作");
+
+        String id = req.getParameter("id");
+        String owner = req.getParameter("owner");
+        String name = req.getParameter("name");
+        String startDate = req.getParameter("startDate");
+        String endDate = req.getParameter("endDate");
+        String cost = req.getParameter("cost");
+        String description = req.getParameter("description");
+        //修改时间：当前系统时间
+        String editTime = DateTimeUtil.getSysTime();
+        //修改人：当前登录用户
+        String editBy = ((User)req.getSession().getAttribute("user")).getName();
+
+        Activity a = new Activity();
+        a.setId(id);
+        a.setCost(cost);
+        a.setStartDate(startDate);
+        a.setOwner(owner);
+        a.setName(name);
+        a.setEndDate(endDate);
+        a.setDescription(description);
+        a.setEditBy(editBy);
+        a.setEditTime(editTime);
+
+        ActivityService as = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+
+        boolean flag = as.update(a);
+
+        PrintJson.printJsonFlag(resp, flag);
+
+    }
+
+    private void getUserListAndActivity(HttpServletRequest req, HttpServletResponse resp) {
+
+        System.out.println("进入到查询用户信息列表和根据市场活动id查询单条记录");
+
+        String id = req.getParameter("id");
+
+        ActivityService as = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+
+        /*
+			总结：
+                controller调用service的方法，返回值应该是什么
+                你得想一想前端要什么，就要从service层取什么
+
+            前端需要的，管业务层去要
+            uList
+            a
+
+            以上两项信息，复用率不高，我们选择使用map打包这两项信息即可
+            map
+		*/
+
+        Map<String,Object> map =  as.getUserListAndActivity(id);
+
+        PrintJson.printJsonObj(resp,map);
 
     }
 
