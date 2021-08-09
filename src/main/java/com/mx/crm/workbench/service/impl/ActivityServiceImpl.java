@@ -103,4 +103,18 @@ public class ActivityServiceImpl implements ActivityService {
 
         return flag;
     }
+
+    public Activity detail(String id) {
+
+        Activity activity = activityDao.detail(id);
+
+        return activity;
+    }
+
+    public List<ActivityRemark> getRemarkListByAid(String activityId) {
+
+        List<ActivityRemark> arList = activityRemarkDao.getRemarkListByAid(activityId);
+
+        return arList;
+    }
 }
