@@ -5,6 +5,37 @@
 
 <mapper namespace="com.mx.crm.workbench.dao.ActivityRemarkDao">
 
+    <update id="updateRemark">
+
+         update tbl_activity_remark set noteContent=#{noteContent},editBy=#{editBy},editTime=#{editTime},editFlag=#{editFlag}
+
+        where id=#{id}
+
+    </update>
+
+    
+    <insert id="saveRemark">
+        
+        insert into tbl_activity_remark (
+            id,
+            noteContent,
+            createTime,
+            createBy,
+            editFlag,
+            activityId
+        )
+        values (
+            #{id},
+            #{noteContent},
+            #{createTime},
+            #{createBy},
+            #{editFlag},
+            #{activityId}
+        )
+        
+    </insert>
+    
+
     <delete id="deleteById">
         delete from tbl_activity_remark where id=#{id}
     </delete>
