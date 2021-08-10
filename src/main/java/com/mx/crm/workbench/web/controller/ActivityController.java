@@ -24,7 +24,7 @@ public class ActivityController extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("½øÈëµ½ÊĞ³¡»î¶¯¿ØÖÆÆ÷");
+        System.out.println("è¿›å…¥åˆ°å¸‚åœºæ´»åŠ¨æ§åˆ¶å™¨");
 
         String path = req.getServletPath();
 
@@ -78,7 +78,7 @@ public class ActivityController extends HttpServlet {
 
     private void updateRemark(HttpServletRequest req, HttpServletResponse resp) {
 
-        System.out.println("Ö´ĞĞĞŞ¸Ä±¸×¢²Ù×÷");
+        System.out.println("æ‰§è¡Œä¿®æ”¹å¤‡æ³¨æ“ä½œ");
 
         String id = req.getParameter("id");
         String noteContent = req.getParameter("noteContent");
@@ -107,7 +107,7 @@ public class ActivityController extends HttpServlet {
 
     private void saveRemark(HttpServletRequest req, HttpServletResponse resp) {
 
-        System.out.println("Ö´ĞĞÌí¼Ó±¸×¢²Ù×÷");
+        System.out.println("æ‰§è¡Œæ·»åŠ å¤‡æ³¨æ“ä½œ");
 
         String noteContent = req.getParameter("noteContent");
         String activityId = req.getParameter("activityId");
@@ -139,7 +139,7 @@ public class ActivityController extends HttpServlet {
 
     private void deleteRemark(HttpServletRequest req, HttpServletResponse resp) {
 
-        System.out.println("É¾³ı±¸×¢²Ù×÷");
+        System.out.println("åˆ é™¤å¤‡æ³¨æ“ä½œ");
 
         String id = req.getParameter("id");
 
@@ -153,7 +153,7 @@ public class ActivityController extends HttpServlet {
 
     private void getRemarkListByAid(HttpServletRequest req, HttpServletResponse resp) {
 
-        System.out.println("¸ù¾İÊĞ³¡»î¶¯idÈ¡µÃ±¸×¢ĞÅÏ¢ÁĞ±í");
+        System.out.println("æ ¹æ®å¸‚åœºæ´»åŠ¨idå–å¾—å¤‡æ³¨ä¿¡æ¯åˆ—è¡¨");
 
         String activityId = req.getParameter("activityId");
 
@@ -168,7 +168,7 @@ public class ActivityController extends HttpServlet {
 
     private void detail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        System.out.println("½øÈëµ½Ìø×ªµ½ÏêÏ¸ĞÅÏ¢Ò³µÄ²Ù×÷");
+        System.out.println("è¿›å…¥åˆ°è·³è½¬åˆ°è¯¦ç»†ä¿¡æ¯é¡µçš„æ“ä½œ");
 
         String id = req.getParameter("id");
 
@@ -184,7 +184,7 @@ public class ActivityController extends HttpServlet {
 
     private void update(HttpServletRequest req, HttpServletResponse resp) {
 
-        System.out.println("Ö´ĞĞÊĞ³¡»î¶¯ĞŞ¸Ä²Ù×÷");
+        System.out.println("æ‰§è¡Œå¸‚åœºæ´»åŠ¨ä¿®æ”¹æ“ä½œ");
 
         String id = req.getParameter("id");
         String owner = req.getParameter("owner");
@@ -193,9 +193,9 @@ public class ActivityController extends HttpServlet {
         String endDate = req.getParameter("endDate");
         String cost = req.getParameter("cost");
         String description = req.getParameter("description");
-        //ĞŞ¸ÄÊ±¼ä£ºµ±Ç°ÏµÍ³Ê±¼ä
+        //ä¿®æ”¹æ—¶é—´ï¼šå½“å‰ç³»ç»Ÿæ—¶é—´
         String editTime = DateTimeUtil.getSysTime();
-        //ĞŞ¸ÄÈË£ºµ±Ç°µÇÂ¼ÓÃ»§
+        //ä¿®æ”¹äººï¼šå½“å‰ç™»å½•ç”¨æˆ·
         String editBy = ((User)req.getSession().getAttribute("user")).getName();
 
         Activity a = new Activity();
@@ -219,22 +219,22 @@ public class ActivityController extends HttpServlet {
 
     private void getUserListAndActivity(HttpServletRequest req, HttpServletResponse resp) {
 
-        System.out.println("½øÈëµ½²éÑ¯ÓÃ»§ĞÅÏ¢ÁĞ±íºÍ¸ù¾İÊĞ³¡»î¶¯id²éÑ¯µ¥Ìõ¼ÇÂ¼");
+        System.out.println("è¿›å…¥åˆ°æŸ¥è¯¢ç”¨æˆ·ä¿¡æ¯åˆ—è¡¨å’Œæ ¹æ®å¸‚åœºæ´»åŠ¨idæŸ¥è¯¢å•æ¡è®°å½•");
 
         String id = req.getParameter("id");
 
         ActivityService as = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
 
         /*
-			×Ü½á£º
-                controllerµ÷ÓÃserviceµÄ·½·¨£¬·µ»ØÖµÓ¦¸ÃÊÇÊ²Ã´
-                ÄãµÃÏëÒ»ÏëÇ°¶ËÒªÊ²Ã´£¬¾ÍÒª´Óservice²ãÈ¡Ê²Ã´
+			æ€»ç»“ï¼š
+                controllerè°ƒç”¨serviceçš„æ–¹æ³•ï¼Œè¿”å›å€¼åº”è¯¥æ˜¯ä»€ä¹ˆ
+                ä½ å¾—æƒ³ä¸€æƒ³å‰ç«¯è¦ä»€ä¹ˆï¼Œå°±è¦ä»serviceå±‚å–ä»€ä¹ˆ
 
-            Ç°¶ËĞèÒªµÄ£¬¹ÜÒµÎñ²ãÈ¥Òª
+            å‰ç«¯éœ€è¦çš„ï¼Œç®¡ä¸šåŠ¡å±‚å»è¦
             uList
             a
 
-            ÒÔÉÏÁ½ÏîĞÅÏ¢£¬¸´ÓÃÂÊ²»¸ß£¬ÎÒÃÇÑ¡ÔñÊ¹ÓÃmap´ò°üÕâÁ½ÏîĞÅÏ¢¼´¿É
+            ä»¥ä¸Šä¸¤é¡¹ä¿¡æ¯ï¼Œå¤ç”¨ç‡ä¸é«˜ï¼Œæˆ‘ä»¬é€‰æ‹©ä½¿ç”¨mapæ‰“åŒ…è¿™ä¸¤é¡¹ä¿¡æ¯å³å¯
             map
 		*/
 
@@ -246,7 +246,7 @@ public class ActivityController extends HttpServlet {
 
     private void delete(HttpServletRequest req, HttpServletResponse resp) {
 
-        System.out.println("Ö´ĞĞÊĞ³¡»î¶¯É¾³ı²Ù×÷");
+        System.out.println("æ‰§è¡Œå¸‚åœºæ´»åŠ¨åˆ é™¤æ“ä½œ");
 
         String ids[] = req.getParameterValues("id");
 
@@ -260,7 +260,7 @@ public class ActivityController extends HttpServlet {
 
     private void pageList(HttpServletRequest req, HttpServletResponse resp) {
 
-        System.out.println("½øÈëµ½²éÑ¯ÊĞ³¡ĞÅÏ¢»î¶¯ÁĞ±íµÄ²Ù×÷£¨½áºÏÌõ¼ş²éÑ¯+·ÖÒ³²éÑ¯£©");
+        System.out.println("è¿›å…¥åˆ°æŸ¥è¯¢å¸‚åœºä¿¡æ¯æ´»åŠ¨åˆ—è¡¨çš„æ“ä½œï¼ˆç»“åˆæ¡ä»¶æŸ¥è¯¢+åˆ†é¡µæŸ¥è¯¢ï¼‰");
 
         String name = req.getParameter("name");
         String owner = req.getParameter("owner");
@@ -268,10 +268,10 @@ public class ActivityController extends HttpServlet {
         String endDate = req.getParameter("endDate");
         String pageNoStr = req.getParameter("pageNo");
         int pageNo = Integer.valueOf(pageNoStr);
-        //Ã¿Ò³Õ¹ÏÖµÄ¼ÇÂ¼ÊıÁ¿
+        //æ¯é¡µå±•ç°çš„è®°å½•æ•°é‡
         String pageSizeStr = req.getParameter("pageSize");
         int pageSize = Integer.valueOf(pageSizeStr);
-        //¼ÆËã³öÂÔ¹ıµÄ¼ÇÂ¼Êı
+        //è®¡ç®—å‡ºç•¥è¿‡çš„è®°å½•æ•°
         int skipCount = (pageNo - 1) * pageSize;
 
 
@@ -287,15 +287,15 @@ public class ActivityController extends HttpServlet {
 
         /*
 
-            Ç°¶ËÒª£º ÊĞ³¡»î¶¯ĞÅÏ¢ÁĞ±í
-                    ²éÑ¯µÄ×ÜÌõÊı
+            å‰ç«¯è¦ï¼š å¸‚åœºæ´»åŠ¨ä¿¡æ¯åˆ—è¡¨
+                    æŸ¥è¯¢çš„æ€»æ¡æ•°
 
-                    ÒµÎñ²ãÄÃµ½ÁËÒÔÉÏÁ½ÏîĞÅÏ¢Ö®ºó£¬Èç¹û×ö·µ»Ø
+                    ä¸šåŠ¡å±‚æ‹¿åˆ°äº†ä»¥ä¸Šä¸¤é¡¹ä¿¡æ¯ä¹‹åï¼Œå¦‚æœåšè¿”å›
                     map
                     map.put("dataList":dataList)
                     map.put("total":total)
                     PrintJSON map --> json
-                    {"total":100,"dataList":[{ÊĞ³¡»î¶¯1},{2},{3}]}
+                    {"total":100,"dataList":[{å¸‚åœºæ´»åŠ¨1},{2},{3}]}
 
 
                     vo
@@ -307,16 +307,16 @@ public class ActivityController extends HttpServlet {
                     vo.setTotal(total);
                     vo.setDataList(dataList);
                     PrintJSON vo --> json
-                    {"total":100,"dataList":[{ÊĞ³¡»î¶¯1},{2},{3}]}
+                    {"total":100,"dataList":[{å¸‚åœºæ´»åŠ¨1},{2},{3}]}
 
 
-                    ½«À´·ÖÒ³²éÑ¯£¬Ã¿¸öÄ£¿é¶¼ÓĞ£¬ËùÒÔÎÒÃÇÑ¡ÔñÊ¹ÓÃÒ»¸öÍ¨ÓÃvo£¬²Ù×÷ÆğÀ´±È½Ï·½±ã
+                    å°†æ¥åˆ†é¡µæŸ¥è¯¢ï¼Œæ¯ä¸ªæ¨¡å—éƒ½æœ‰ï¼Œæ‰€ä»¥æˆ‘ä»¬é€‰æ‹©ä½¿ç”¨ä¸€ä¸ªé€šç”¨voï¼Œæ“ä½œèµ·æ¥æ¯”è¾ƒæ–¹ä¾¿
 
          */
 
         PaginationVO<Activity> vo = as.pageList(map);
 
-        //vo--> {"total":100,"dataList":[{ÊĞ³¡»î¶¯1},{2},{3}]}
+        //vo--> {"total":100,"dataList":[{å¸‚åœºæ´»åŠ¨1},{2},{3}]}
         PrintJson.printJsonObj(resp,vo);
 
 
@@ -324,7 +324,7 @@ public class ActivityController extends HttpServlet {
 
     private void save(HttpServletRequest req, HttpServletResponse resp) {
 
-        System.out.println("Ö´ĞĞÊĞ³¡»î¶¯Ìí¼Ó²Ù×÷");
+        System.out.println("æ‰§è¡Œå¸‚åœºæ´»åŠ¨æ·»åŠ æ“ä½œ");
 
         String id = UUIDUtil.getUUID();
         String owner = req.getParameter("owner");
@@ -333,9 +333,9 @@ public class ActivityController extends HttpServlet {
         String endDate = req.getParameter("endDate");
         String cost = req.getParameter("cost");
         String description = req.getParameter("description");
-        //´´½¨Ê±¼ä£ºµ±Ç°ÏµÍ³Ê±¼ä
+        //åˆ›å»ºæ—¶é—´ï¼šå½“å‰ç³»ç»Ÿæ—¶é—´
         String createTime = DateTimeUtil.getSysTime();
-        //´´½¨ÈË£ºµ±Ç°µÇÂ¼ÓÃ»§
+        //åˆ›å»ºäººï¼šå½“å‰ç™»å½•ç”¨æˆ·
         String createBy = ((User)req.getSession().getAttribute("user")).getName();
 
         Activity a = new Activity();
@@ -359,7 +359,7 @@ public class ActivityController extends HttpServlet {
 
     private void getUserList(HttpServletRequest req, HttpServletResponse resp) {
 
-        System.out.println("È¡µÃÓÃ»§ĞÅÏ¢ÁĞ±í");
+        System.out.println("å–å¾—ç”¨æˆ·ä¿¡æ¯åˆ—è¡¨");
         UserService us = (UserService) ServiceFactory.getService(new UserServiceImpl());
 
         List<User> uList = us.getUserList();
